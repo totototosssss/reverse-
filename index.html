@@ -3,990 +3,171 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>6×6 Row/Column Flip Battle</title>
+  <title>6x6 Flip</title>
   <style>
-    :root {
-      --bg: #10131a;
-      --panel: #181d27;
-      --panel2: #202738;
-      --text: #f3f5f7;
-      --muted: #aab2c5;
-      --accent: #72d6ff;
-      --danger: #ff6b6b;
-      --ok: #77e39d;
-      --warn: #ffd166;
-      --line: rgba(255,255,255,0.12);
-      --cell: min(13.5vw, 64px);
+    :root{
+      --bg:#0f1117;--panel:#181c25;--panel2:#222838;--text:#f6f7f9;--sub:#a9b0c0;
+      --blue:#76d7ff;--red:#ff6b6b;--yellow:#ffd166;--green:#76e39e;--line:rgba(255,255,255,.12);
+      --cell:min(14vw,62px)
     }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100svh;
-      background: radial-gradient(circle at top, #25304a 0, var(--bg) 48%, #07090d 100%);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: max(10px, env(safe-area-inset-top)) 10px max(16px, env(safe-area-inset-bottom));
-    }
-
-    .app {
-      width: min(760px, 100%);
-      display: grid;
-      gap: 10px;
-    }
-
-    .card {
-      background: rgba(24, 29, 39, 0.94);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-      padding: 12px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: 0.02em;
-    }
-
-    .top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .grid2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    @media (max-width: 560px) {
-      :root { --cell: min(14.7vw, 58px); }
-      .grid2 { grid-template-columns: 1fr; }
-      h1 { font-size: 18px; }
-      .card { border-radius: 14px; padding: 10px; }
-    }
-
-    input {
-      width: 100%;
-      padding: 11px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: #101521;
-      color: var(--text);
-      font-size: 16px;
-      outline: none;
-    }
-
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 11px 13px;
-      font-weight: 800;
-      color: #061018;
-      background: var(--accent);
-      cursor: pointer;
-      min-height: 42px;
-      touch-action: manipulation;
-    }
-
-    button.secondary {
-      background: #31394d;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    button.danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    button.warn {
-      background: var(--warn);
-      color: #251600;
-    }
-
-    button.ok {
-      background: var(--ok);
-      color: #04150b;
-    }
-
-    button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
-    .status {
-      display: grid;
-      gap: 6px;
-      padding: 10px;
-      background: rgba(255,255,255,0.055);
-      border-radius: 14px;
-      border: 1px solid var(--line);
-    }
-
-    .status-main {
-      font-weight: 900;
-      font-size: 15px;
-    }
-
-    .players {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .player {
-      padding: 10px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--line);
-      min-width: 0;
-    }
-
-    .player.active {
-      outline: 2px solid var(--accent);
-    }
-
-    .piece-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-weight: 900;
-    }
-
-    .dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.4);
-      display: inline-block;
-    }
-
-    .dot.black { background: #050505; }
-    .dot.white { background: #f7f7f7; }
-
-    .board-wrap {
-      display: flex;
-      justify-content: center;
-      overflow: visible;
-    }
-
-    .board {
-      display: grid;
-      grid-template-columns: repeat(6, var(--cell));
-      grid-template-rows: repeat(6, var(--cell));
-      gap: 5px;
-      padding: 8px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #435331, #26311d);
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow: inset 0 0 18px rgba(0,0,0,0.4);
-    }
-
-    .cell {
-      width: var(--cell);
-      height: var(--cell);
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: radial-gradient(circle at 35% 30%, #6c8a46, #395226);
-      display: grid;
-      place-items: center;
-      position: relative;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
-
-    .cell.legal::after {
-      content: "";
-      position: absolute;
-      width: 30%;
-      height: 30%;
-      border-radius: 999px;
-      background: rgba(114, 214, 255, 0.45);
-      box-shadow: 0 0 16px rgba(114, 214, 255, 0.6);
-    }
-
-    .cell.last {
-      outline: 3px solid var(--warn);
-      outline-offset: -3px;
-    }
-
-    .stone {
-      width: 76%;
-      height: 76%;
-      border-radius: 999px;
-      box-shadow: 0 7px 12px rgba(0,0,0,0.35), inset 0 4px 6px rgba(255,255,255,0.15);
-      z-index: 2;
-    }
-
-    .stone.black {
-      background: radial-gradient(circle at 33% 28%, #606060, #050505 58%, #000 100%);
-      border: 1px solid #000;
-    }
-
-    .stone.white {
-      background: radial-gradient(circle at 35% 28%, #ffffff, #e5e5e5 62%, #bfc4ca 100%);
-      border: 1px solid #d4d9df;
-    }
-
-    .controls {
-      display: grid;
-      gap: 8px;
-    }
-
-    .flip-panel {
-      display: grid;
-      gap: 8px;
-      background: rgba(255,255,255,0.055);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px;
-    }
-
-    .flip-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-    }
-
-    .hidden { display: none !important; }
-
-    .log {
-      max-height: 120px;
-      overflow: auto;
-      padding-right: 4px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
-
-    .copyline {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-    }
-
-    .winner {
-      color: var(--ok);
-      font-weight: 900;
-    }
-
-    .loser {
-      color: var(--danger);
-      font-weight: 900;
-    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;min-height:100svh;background:radial-gradient(circle at top,#26324b,#0f1117 52%,#07080c);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:max(10px,env(safe-area-inset-top)) 10px max(14px,env(safe-area-inset-bottom));display:flex;justify-content:center}
+    .app{width:min(720px,100%);display:grid;gap:9px}
+    .card{background:rgba(24,28,37,.95);border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:0 12px 40px rgba(0,0,0,.28)}
+    .head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    h1{font-size:19px;margin:0}.sub{font-size:12px;color:var(--sub);line-height:1.35}.main{font-weight:900;font-size:15px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    input{width:100%;font-size:16px;color:var(--text);background:#101521;border:1px solid var(--line);border-radius:12px;padding:10px;outline:none}
+    button{border:0;border-radius:12px;min-height:40px;padding:9px 12px;background:var(--blue);color:#061018;font-weight:900;cursor:pointer;touch-action:manipulation}
+    button.secondary{background:#303748;color:var(--text);border:1px solid var(--line)}button.warn{background:var(--yellow);color:#241600}button.danger{background:var(--red);color:white}button:disabled{opacity:.42;cursor:not-allowed}
+    .status{display:grid;gap:4px;background:rgba(255,255,255,.045);border-radius:13px;border:1px solid var(--line);padding:9px}
+    .players{display:grid;grid-template-columns:1fr 1fr;gap:8px}.player{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:9px;min-width:0}.player.active{outline:2px solid var(--blue)}
+    .tag{display:inline-flex;gap:7px;align-items:center;font-weight:900}.dot{width:17px;height:17px;border-radius:50%;border:1px solid rgba(255,255,255,.45)}.dot.black{background:#050505}.dot.white{background:#f7f7f7}
+    .boardWrap{display:flex;justify-content:center}.board{display:grid;grid-template-columns:repeat(6,var(--cell));grid-template-rows:repeat(6,var(--cell));gap:5px;padding:8px;border-radius:16px;background:linear-gradient(135deg,#4d6235,#26341d);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 0 18px rgba(0,0,0,.38)}
+    .cell{width:var(--cell);height:var(--cell);border-radius:12px;border:1px solid rgba(255,255,255,.15);background:radial-gradient(circle at 35% 30%,#6f904b,#395527);display:grid;place-items:center;position:relative;cursor:pointer;touch-action:manipulation;padding:0}
+    .cell.legal:after{content:"";position:absolute;width:28%;height:28%;border-radius:50%;background:rgba(118,215,255,.48);box-shadow:0 0 14px rgba(118,215,255,.65)}.cell.last{outline:3px solid var(--yellow);outline-offset:-3px}.cell.sel{outline:3px solid var(--blue);outline-offset:-3px}
+    .stone{width:76%;height:76%;border-radius:50%;z-index:2;box-shadow:0 7px 12px rgba(0,0,0,.35),inset 0 4px 6px rgba(255,255,255,.16)}.stone.black{background:radial-gradient(circle at 32% 28%,#5b5b5b,#050505 58%,#000);border:1px solid #000}.stone.white{background:radial-gradient(circle at 35% 28%,#fff,#e7e7e7 62%,#bfc4ca);border:1px solid #d4d9df}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.flip{display:grid;gap:7px;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:9px}.flipBtns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.log{max-height:105px;overflow:auto;color:var(--sub);font-size:12px;line-height:1.45}.hidden{display:none!important}.win{color:var(--green);font-weight:900}.lose{color:var(--red);font-weight:900}
+    @media(max-width:560px){:root{--cell:min(14.8vw,56px)}.grid2{grid-template-columns:1fr}.card{border-radius:14px;padding:9px}h1{font-size:18px}.actions,.flipBtns{grid-template-columns:1fr 1fr}.flipBtns button:last-child{grid-column:1/3}}
   </style>
 </head>
 <body>
-  <main class="app">
-    <section class="card top">
-      <div>
-        <h1>6×6 Flip Battle</h1>
-        <div class="small">置いた後、その石を含まない「行」または「列」を1本反転できるオンライン対戦。</div>
+<main class="app">
+  <section class="card head">
+    <div><h1>6x6 Flip</h1><div class="sub">置く → 行/列を反転</div></div>
+    <button id="resetBtn" class="secondary">リセット</button>
+  </section>
+
+  <section id="joinCard" class="card">
+    <div class="grid2">
+      <div><div class="sub">名前</div><input id="nameInput" maxlength="16" placeholder="name"></div>
+      <div><div class="sub">部屋</div><input id="roomInput" maxlength="50" placeholder="room"></div>
+    </div>
+    <div class="row" style="margin-top:8px"><button id="joinBtn">入る</button><button id="copyUrlBtn" class="secondary">URLコピー</button></div>
+  </section>
+
+  <section class="card status">
+    <div id="statusMain" class="main">未参加</div>
+    <div id="statusSub" class="sub">2人で開始</div>
+    <div id="timerText" class="sub"></div>
+  </section>
+
+  <section class="card players">
+    <div id="blackPlayer" class="player"><div class="tag"><span class="dot black"></span>黒</div><div id="blackName" class="sub">空席</div><div id="blackCount" class="sub">0</div></div>
+    <div id="whitePlayer" class="player"><div class="tag"><span class="dot white"></span>白</div><div id="whiteName" class="sub">空席</div><div id="whiteCount" class="sub">0</div></div>
+  </section>
+
+  <section class="card boardWrap"><div id="board" class="board"></div></section>
+
+  <section class="card" style="display:grid;gap:8px">
+    <div class="actions">
+      <button id="urgeBtn" class="warn">催促</button>
+      <button id="passFlipBtn" class="secondary">反転なし</button>
+    </div>
+    <div id="flipPanel" class="flip hidden">
+      <div id="flipInfo" class="main">反転選択</div>
+      <div class="flipBtns">
+        <button id="flipRowBtn">行</button>
+        <button id="flipColBtn">列</button>
+        <button id="noFlipBtn" class="secondary">なし</button>
       </div>
-      <button id="resetBtn" class="secondary">リセット</button>
-    </section>
-
-    <section id="joinCard" class="card">
-      <div class="grid2">
-        <div>
-          <div class="small">名前</div>
-          <input id="nameInput" maxlength="16" placeholder="名前を入力" />
-        </div>
-        <div>
-          <div class="small">部屋ID / 合言葉</div>
-          <input id="roomInput" maxlength="50" placeholder="URLの r=... を使用" />
-        </div>
-      </div>
-      <div class="row" style="margin-top: 10px;">
-        <button id="joinBtn">参加する</button>
-        <button id="copyUrlBtn" class="secondary">招待URLコピー</button>
-      </div>
-      <div class="small" style="margin-top: 8px;">
-        URLに <span class="mono">?r=roomName&key=secret</span> を付けると部屋を固定できます。keyは部屋の簡易分離用です。
-      </div>
-    </section>
-
-    <section class="card status">
-      <div id="statusMain" class="status-main">未参加です。</div>
-      <div id="statusSub" class="small">2人参加すると黒から開始します。</div>
-      <div id="timerText" class="small"></div>
-    </section>
-
-    <section class="card players">
-      <div id="blackPlayer" class="player">
-        <div class="piece-label"><span class="dot black"></span>黒</div>
-        <div id="blackName" class="small">空席</div>
-        <div id="blackCount" class="small">0 stones</div>
-      </div>
-      <div id="whitePlayer" class="player">
-        <div class="piece-label"><span class="dot white"></span>白</div>
-        <div id="whiteName" class="small">空席</div>
-        <div id="whiteCount" class="small">0 stones</div>
-      </div>
-    </section>
-
-    <section class="card board-wrap">
-      <div id="board" class="board" aria-label="game board"></div>
-    </section>
-
-    <section class="card controls">
-      <div class="row">
-        <button id="urgeBtn" class="warn">催促：相手を7秒制限にする</button>
-        <button id="passFlipBtn" class="secondary">反転しない</button>
-      </div>
-
-      <div id="flipPanel" class="flip-panel hidden">
-        <div id="flipInfo" class="status-main">反転する行・列を選択</div>
-        <div class="small">直前に置いた石を含む行・列は選べません。</div>
-        <div class="flip-buttons">
-          <button id="flipRowBtn">この行を反転</button>
-          <button id="flipColBtn">この列を反転</button>
-          <button id="noFlipBtn" class="secondary">反転なし</button>
-        </div>
-        <div class="small">盤面上の別のマスを押すと、そのマスの行・列を候補にできます。</div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="copyline">
-        <div class="small mono" id="roomLine">room: -</div>
-        <button id="copyRecordBtn" class="secondary">棋譜コピー</button>
-      </div>
-      <div id="log" class="log"></div>
-    </section>
-  </main>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      onValue,
-      get,
-      set,
-      update,
-      runTransaction,
-      serverTimestamp,
-      onDisconnect
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
-
-    // ここだけ自分のFirebase設定に置き換えてください。
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-      projectId: "YOUR_PROJECT",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    const N = 6;
-    const EMPTY = null;
-    const BLACK = "black";
-    const WHITE = "white";
-    const COLORS = [BLACK, WHITE];
-
-    const $ = (id) => document.getElementById(id);
-
-    const boardEl = $("board");
-    const joinCard = $("joinCard");
-    const nameInput = $("nameInput");
-    const roomInput = $("roomInput");
-    const joinBtn = $("joinBtn");
-    const copyUrlBtn = $("copyUrlBtn");
-    const resetBtn = $("resetBtn");
-    const statusMain = $("statusMain");
-    const statusSub = $("statusSub");
-    const timerText = $("timerText");
-    const blackPlayer = $("blackPlayer");
-    const whitePlayer = $("whitePlayer");
-    const blackName = $("blackName");
-    const whiteName = $("whiteName");
-    const blackCount = $("blackCount");
-    const whiteCount = $("whiteCount");
-    const urgeBtn = $("urgeBtn");
-    const passFlipBtn = $("passFlipBtn");
-    const flipPanel = $("flipPanel");
-    const flipInfo = $("flipInfo");
-    const flipRowBtn = $("flipRowBtn");
-    const flipColBtn = $("flipColBtn");
-    const noFlipBtn = $("noFlipBtn");
-    const roomLine = $("roomLine");
-    const copyRecordBtn = $("copyRecordBtn");
-    const logEl = $("log");
-
-    const params = new URLSearchParams(location.search);
-    const urlRoom = params.get("r") || "";
-    const urlKey = params.get("key") || "public";
-    const deviceId = localStorage.getItem("flipBattleDeviceId") || crypto.randomUUID();
-    localStorage.setItem("flipBattleDeviceId", deviceId);
-
-    roomInput.value = urlRoom || `room-${Math.random().toString(36).slice(2, 8)}`;
-    nameInput.value = localStorage.getItem("flipBattleName") || "";
-
-    let roomId = "";
-    let roomKey = urlKey;
-    let gameRef = null;
-    let playersRef = null;
-    let myColor = null;
-    let state = null;
-    let selectedFlipCell = null;
-    let timerInterval = null;
-
-    function safeKey(s) {
-      return String(s || "public")
-        .trim()
-        .replace(/[.#$\[\]/]/g, "_")
-        .slice(0, 80) || "public";
-    }
-
-    function makeEmptyBoard() {
-      return Array.from({ length: N }, () => Array.from({ length: N }, () => EMPTY));
-    }
-
-    function initialState() {
-      return {
-        version: 0,
-        board: makeEmptyBoard(),
-        turn: BLACK,
-        phase: "place",
-        started: false,
-        winner: null,
-        loser: null,
-        endReason: "",
-        lastMove: null,
-        flipChooser: null,
-        urge: null,
-        moveNo: 0,
-        log: []
-      };
-    }
-
-    function otherColor(c) {
-      return c === BLACK ? WHITE : BLACK;
-    }
-
-    function colorJa(c) {
-      if (c === BLACK) return "黒";
-      if (c === WHITE) return "白";
-      return "-";
-    }
-
-    function cloneBoard(board) {
-      return board.map(row => row.slice());
-    }
-
-    function boardFull(board) {
-      return board.every(row => row.every(cell => cell));
-    }
-
-    function countStones(board) {
-      let black = 0;
-      let white = 0;
-      for (let r = 0; r < N; r++) {
-        for (let c = 0; c < N; c++) {
-          if (board[r][c] === BLACK) black++;
-          if (board[r][c] === WHITE) white++;
-        }
-      }
-      return { black, white };
-    }
-
-    function hasAnyStone(board) {
-      for (let r = 0; r < N; r++) {
-        for (let c = 0; c < N; c++) {
-          if (board[r][c]) return true;
-        }
-      }
-      return false;
-    }
-
-    function adjacentToStone(board, r, c) {
-      const dirs = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
-      for (const [dr, dc] of dirs) {
-        const nr = r + dr;
-        const nc = c + dc;
-        if (0 <= nr && nr < N && 0 <= nc && nc < N && board[nr][nc]) return true;
-      }
-      return false;
-    }
-
-    function legalPlace(board, r, c) {
-      if (r < 0 || r >= N || c < 0 || c >= N) return false;
-      if (board[r][c]) return false;
-      if (!hasAnyStone(board)) return true;
-      return adjacentToStone(board, r, c);
-    }
-
-    function legalMoves(board) {
-      const arr = [];
-      for (let r = 0; r < N; r++) {
-        for (let c = 0; c < N; c++) {
-          if (legalPlace(board, r, c)) arr.push({ r, c });
-        }
-      }
-      return arr;
-    }
-
-    function flipCellValue(v) {
-      if (v === BLACK) return WHITE;
-      if (v === WHITE) return BLACK;
-      return EMPTY;
-    }
-
-    function applyFlip(board, kind, index) {
-      const b = cloneBoard(board);
-      if (kind === "row") {
-        for (let c = 0; c < N; c++) b[index][c] = flipCellValue(b[index][c]);
-      } else if (kind === "col") {
-        for (let r = 0; r < N; r++) b[r][index] = flipCellValue(b[r][index]);
-      }
-      return b;
-    }
-
-    function decideWinnerByCount(board) {
-      const cnt = countStones(board);
-      if (cnt.black > cnt.white) return BLACK;
-      if (cnt.white > cnt.black) return WHITE;
-      return "draw";
-    }
-
-    function logLine(text) {
-      return `[${new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}] ${text}`;
-    }
-
-    function trimLog(log) {
-      return (log || []).slice(-80);
-    }
-
-    function nowMs() {
-      return Date.now();
-    }
-
-    function renderBoard() {
-      boardEl.innerHTML = "";
-      if (!state) return;
-      const board = state.board || makeEmptyBoard();
-      const legal = state.phase === "place" && state.turn === myColor && !state.winner;
-      const legalSet = new Set(legalMoves(board).map(p => `${p.r},${p.c}`));
-      const last = state.lastMove;
-
-      for (let r = 0; r < N; r++) {
-        for (let c = 0; c < N; c++) {
-          const cell = document.createElement("button");
-          cell.className = "cell";
-          cell.type = "button";
-          cell.setAttribute("aria-label", `row ${r + 1}, col ${c + 1}`);
-          if (legal && legalSet.has(`${r},${c}`)) cell.classList.add("legal");
-          if (last && last.r === r && last.c === c) cell.classList.add("last");
-          if (selectedFlipCell && selectedFlipCell.r === r && selectedFlipCell.c === c) {
-            cell.style.outline = "3px solid var(--accent)";
-            cell.style.outlineOffset = "-3px";
-          }
-          const v = board[r][c];
-          if (v) {
-            const stone = document.createElement("div");
-            stone.className = `stone ${v}`;
-            cell.appendChild(stone);
-          }
-          cell.addEventListener("click", () => onCellClick(r, c));
-          boardEl.appendChild(cell);
-        }
-      }
-    }
-
-    function renderPlayers() {
-      if (!state || !state.players) {
-        blackName.textContent = "空席";
-        whiteName.textContent = "空席";
-        return;
-      }
-      const p = state.players || {};
-      blackName.textContent = p.black ? `${p.black.name || "名無し"}${myColor === BLACK ? "（あなた）" : ""}` : "空席";
-      whiteName.textContent = p.white ? `${p.white.name || "名無し"}${myColor === WHITE ? "（あなた）" : ""}` : "空席";
-      const cnt = countStones(state.board || makeEmptyBoard());
-      blackCount.textContent = `${cnt.black} stones`;
-      whiteCount.textContent = `${cnt.white} stones`;
-      blackPlayer.classList.toggle("active", state.turn === BLACK && !state.winner);
-      whitePlayer.classList.toggle("active", state.turn === WHITE && !state.winner);
-    }
-
-    function renderStatus() {
-      if (!state) {
-        statusMain.textContent = "未参加です。";
-        statusSub.textContent = "2人参加すると黒から開始します。";
-        return;
-      }
-
-      const p = state.players || {};
-      const joinedCount = Number(Boolean(p.black)) + Number(Boolean(p.white));
-
-      if (state.winner) {
-        const cnt = countStones(state.board || makeEmptyBoard());
-        if (state.winner === "draw") {
-          statusMain.innerHTML = `引き分けです。黒 ${cnt.black} - 白 ${cnt.white}`;
-        } else {
-          statusMain.innerHTML = `<span class="winner">${colorJa(state.winner)}の勝ち</span>：${state.endReason || "ゲーム終了"}`;
-        }
-        statusSub.textContent = `最終石数：黒 ${cnt.black} / 白 ${cnt.white}`;
-      } else if (joinedCount < 2) {
-        statusMain.textContent = "相手の参加待ちです。";
-        statusSub.textContent = "2人そろうと黒から開始します。";
-      } else if (state.phase === "flip") {
-        statusMain.textContent = `${colorJa(state.flipChooser)}が反転を選ぶ番です。`;
-        statusSub.textContent = state.flipChooser === myColor ? "反転する行・列を選んでください。反転なしも可能です。" : "相手が反転を選択中です。";
-      } else {
-        statusMain.textContent = `${colorJa(state.turn)}の番です。`;
-        statusSub.textContent = state.turn === myColor ? "合法マスに石を置いてください。" : "相手の手番です。";
-      }
-
-      roomLine.textContent = `room: ${roomId || "-"} / key: ${roomKey || "public"} / you: ${myColor ? colorJa(myColor) : "未参加"}`;
-
-      const canUrge = state.started && !state.winner && state.phase === "place" && state.turn !== myColor && myColor;
-      urgeBtn.disabled = !canUrge || Boolean(state.urge && state.urge.active);
-      passFlipBtn.disabled = !(state.phase === "flip" && state.flipChooser === myColor && !state.winner);
-    }
-
-    function renderFlipPanel() {
-      if (!state || state.phase !== "flip" || state.flipChooser !== myColor || state.winner) {
-        flipPanel.classList.add("hidden");
-        return;
-      }
-      flipPanel.classList.remove("hidden");
-      const last = state.lastMove;
-      if (!selectedFlipCell) {
-        selectedFlipCell = last ? { r: last.r === 0 ? 1 : 0, c: last.c === 0 ? 1 : 0 } : { r: 0, c: 0 };
-      }
-      flipInfo.textContent = `候補：${selectedFlipCell.r + 1}行目 / ${selectedFlipCell.c + 1}列目`;
-      flipRowBtn.disabled = last && selectedFlipCell.r === last.r;
-      flipColBtn.disabled = last && selectedFlipCell.c === last.c;
-    }
-
-    function renderLog() {
-      const log = (state && state.log) || [];
-      logEl.innerHTML = log.slice().reverse().map(x => `<div>${escapeHtml(x)}</div>`).join("");
-    }
-
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[ch]));
-    }
-
-    function renderTimer() {
-      if (timerInterval) clearInterval(timerInterval);
-      const tick = () => {
-        if (!state || !state.urge || !state.urge.active || state.winner) {
-          timerText.textContent = "";
-          return;
-        }
-        const remain = Math.ceil((state.urge.deadline - nowMs()) / 1000);
-        if (remain > 0) {
-          timerText.textContent = `催促中：${colorJa(state.urge.target)}は残り ${remain} 秒以内に着手。`;
-        } else {
-          timerText.textContent = `催促期限切れ：判定中...`;
-          claimTimeoutIfNeeded();
-        }
-      };
-      tick();
-      timerInterval = setInterval(tick, 250);
-    }
-
-    function renderAll() {
-      renderBoard();
-      renderPlayers();
-      renderStatus();
-      renderFlipPanel();
-      renderLog();
-      renderTimer();
-    }
-
-    async function ensureRoom() {
-      const snap = await get(gameRef);
-      if (!snap.exists()) {
-        await set(gameRef, initialState());
-      }
-    }
-
-    async function joinGame() {
-      const name = (nameInput.value || "").trim() || "名無し";
-      localStorage.setItem("flipBattleName", name);
-      roomId = safeKey(roomInput.value || urlRoom);
-      roomKey = safeKey(urlKey || "public");
-      gameRef = ref(db, `flipBattle6x6/${roomKey}/${roomId}`);
-      playersRef = ref(db, `flipBattle6x6/${roomKey}/${roomId}/players`);
-      await ensureRoom();
-
-      const result = await runTransaction(playersRef, (players) => {
-        players = players || {};
-        for (const c of COLORS) {
-          if (players[c] && players[c].deviceId === deviceId) {
-            players[c].name = name;
-            players[c].online = true;
-            players[c].lastSeen = Date.now();
-            myColor = c;
-            return players;
-          }
-        }
-        if (!players.black) {
-          players.black = { name, deviceId, online: true, joinedAt: Date.now(), lastSeen: Date.now() };
-          myColor = BLACK;
-          return players;
-        }
-        if (!players.white) {
-          players.white = { name, deviceId, online: true, joinedAt: Date.now(), lastSeen: Date.now() };
-          myColor = WHITE;
-          return players;
-        }
-        return;
-      });
-
-      if (!result.committed || !myColor) {
-        alert("この部屋は満席です。別の部屋IDを使ってください。");
-        return;
-      }
-
-      const myPlayerRef = ref(db, `flipBattle6x6/${roomKey}/${roomId}/players/${myColor}`);
-      onDisconnect(myPlayerRef).update({ online: false, lastSeen: serverTimestamp() });
-      await update(myPlayerRef, { online: true, lastSeen: Date.now(), name });
-
-      joinCard.classList.add("hidden");
-      onValue(gameRef, (snap) => {
-        state = snap.val() || initialState();
-        if (!Array.isArray(state.board)) state.board = makeEmptyBoard();
-        if (!Array.isArray(state.log)) state.log = [];
-        if (!state.players) state.players = {};
-        maybeAutostart();
-        selectedFlipCell = normalizeSelectedFlipCell(selectedFlipCell);
-        renderAll();
-      });
-    }
-
-    function normalizeSelectedFlipCell(v) {
-      if (!v) return null;
-      if (v.r < 0 || v.r >= N || v.c < 0 || v.c >= N) return null;
-      return v;
-    }
-
-    async function maybeAutostart() {
-      if (!gameRef || !state || state.started || state.winner) return;
-      const p = state.players || {};
-      if (p.black && p.white) {
-        await runTransaction(gameRef, (s) => {
-          if (!s || s.started) return s;
-          if (s.players && s.players.black && s.players.white) {
-            s.started = true;
-            s.log = trimLog([...(s.log || []), logLine("2人参加。黒から開始。")]);
-          }
-          return s;
-        });
-      }
-    }
-
-    async function onCellClick(r, c) {
-      if (!state || !gameRef || !myColor || state.winner) return;
-
-      if (state.phase === "flip" && state.flipChooser === myColor) {
-        selectedFlipCell = { r, c };
-        renderAll();
-        return;
-      }
-
-      if (state.phase !== "place" || state.turn !== myColor) return;
-
-      await runTransaction(gameRef, (s) => {
-        if (!s || s.winner || s.phase !== "place" || s.turn !== myColor) return s;
-        const board = s.board || makeEmptyBoard();
-        if (!legalPlace(board, r, c)) return s;
-
-        const b = cloneBoard(board);
-        b[r][c] = myColor;
-        s.board = b;
-        s.phase = "flip";
-        s.flipChooser = myColor;
-        s.lastMove = { r, c, color: myColor, at: Date.now() };
-        s.moveNo = (s.moveNo || 0) + 1;
-        s.urge = null;
-        s.log = trimLog([...(s.log || []), logLine(`${colorJa(myColor)}：(${r + 1}, ${c + 1}) に置いた。`)]);
-        return s;
-      });
-    }
-
-    async function chooseFlip(kind) {
-      if (!state || !gameRef || state.phase !== "flip" || state.flipChooser !== myColor || state.winner) return;
-      const last = state.lastMove;
-      let index = null;
-      if (kind === "row") {
-        if (!selectedFlipCell) return;
-        if (last && selectedFlipCell.r === last.r) return;
-        index = selectedFlipCell.r;
-      }
-      if (kind === "col") {
-        if (!selectedFlipCell) return;
-        if (last && selectedFlipCell.c === last.c) return;
-        index = selectedFlipCell.c;
-      }
-
-      await runTransaction(gameRef, (s) => {
-        if (!s || s.winner || s.phase !== "flip" || s.flipChooser !== myColor) return s;
-        let b = s.board || makeEmptyBoard();
-        let action = "反転なし";
-
-        if (kind === "row") {
-          if (s.lastMove && index === s.lastMove.r) return s;
-          b = applyFlip(b, "row", index);
-          action = `${index + 1}行目を反転`;
-        } else if (kind === "col") {
-          if (s.lastMove && index === s.lastMove.c) return s;
-          b = applyFlip(b, "col", index);
-          action = `${index + 1}列目を反転`;
-        }
-
-        s.board = b;
-        s.log = trimLog([...(s.log || []), logLine(`${colorJa(myColor)}：${action}。`)]);
-        s.phase = "place";
-        s.flipChooser = null;
-        s.turn = otherColor(myColor);
-        s.urge = null;
-
-        const moves = legalMoves(b);
-        if (boardFull(b) || moves.length === 0) {
-          const winner = decideWinnerByCount(b);
-          s.winner = winner;
-          s.endReason = boardFull(b) ? "盤面が埋まったため" : "合法手がなくなったため";
-          s.log = trimLog([...(s.log || []), logLine(`ゲーム終了：${s.endReason}`)]);
-        }
-        return s;
-      });
-      selectedFlipCell = null;
-    }
-
-    async function urgeOpponent() {
-      if (!state || !gameRef || !myColor || state.winner) return;
-      if (state.phase !== "place" || state.turn === myColor) return;
-      const target = state.turn;
-      await runTransaction(gameRef, (s) => {
-        if (!s || s.winner || s.phase !== "place" || s.turn !== target) return s;
-        if (s.urge && s.urge.active) return s;
-        s.urge = {
-          active: true,
-          by: myColor,
-          target,
-          moveNo: s.moveNo || 0,
-          deadline: Date.now() + 7000
-        };
-        s.log = trimLog([...(s.log || []), logLine(`${colorJa(myColor)}が催促。${colorJa(target)}は7秒以内に着手。`)]);
-        return s;
-      });
-    }
-
-    async function claimTimeoutIfNeeded() {
-      if (!state || !gameRef || !state.urge || !state.urge.active || state.winner) return;
-      if (Date.now() < state.urge.deadline) return;
-      await runTransaction(gameRef, (s) => {
-        if (!s || s.winner || !s.urge || !s.urge.active) return s;
-        if (Date.now() < s.urge.deadline) return s;
-        if (s.phase !== "place") {
-          s.urge = null;
-          return s;
-        }
-        if ((s.moveNo || 0) !== s.urge.moveNo) {
-          s.urge = null;
-          return s;
-        }
-        const loser = s.urge.target;
-        const winner = otherColor(loser);
-        s.winner = winner;
-        s.loser = loser;
-        s.endReason = `${colorJa(loser)}が催促後7秒以内に着手しなかったため`;
-        s.log = trimLog([...(s.log || []), logLine(`時間切れ：${colorJa(winner)}の勝ち。`)]);
-        return s;
-      });
-    }
-
-    async function resetGame() {
-      if (!gameRef) {
-        const r = safeKey(roomInput.value || urlRoom);
-        const k = safeKey(urlKey || "public");
-        gameRef = ref(db, `flipBattle6x6/${k}/${r}`);
-      }
-      if (!confirm("この部屋の盤面をリセットしますか？")) return;
-      await runTransaction(gameRef, (s) => {
-        const players = s && s.players ? s.players : {};
-        const ns = initialState();
-        ns.players = players;
-        ns.started = Boolean(players.black && players.white);
-        ns.log = trimLog([logLine("盤面をリセット。")]);
-        return ns;
-      });
-    }
-
-    async function copyInviteUrl() {
-      const r = safeKey(roomInput.value || urlRoom);
-      const k = safeKey(urlKey || "public");
-      const url = `${location.origin}${location.pathname}?r=${encodeURIComponent(r)}&key=${encodeURIComponent(k)}`;
-      await navigator.clipboard.writeText(url);
-      alert("招待URLをコピーしました。\n" + url);
-    }
-
-    async function copyRecord() {
-      if (!state) return;
-      const cnt = countStones(state.board || makeEmptyBoard());
-      const lines = [];
-      lines.push("6x6 Flip Battle Record");
-      lines.push(`room: ${roomId || safeKey(roomInput.value)}`);
-      lines.push(`result: ${state.winner ? (state.winner === "draw" ? "draw" : colorJa(state.winner) + " win") : "playing"}`);
-      lines.push(`stones: black ${cnt.black}, white ${cnt.white}`);
-      lines.push("board:");
-      for (const row of (state.board || makeEmptyBoard())) {
-        lines.push(row.map(v => v === BLACK ? "B" : v === WHITE ? "W" : ".").join(" "));
-      }
-      lines.push("log:");
-      for (const x of (state.log || [])) lines.push(x);
-      await navigator.clipboard.writeText(lines.join("\n"));
-      alert("棋譜をコピーしました。");
-    }
-
-    joinBtn.addEventListener("click", joinGame);
-    copyUrlBtn.addEventListener("click", copyInviteUrl);
-    resetBtn.addEventListener("click", resetGame);
-    urgeBtn.addEventListener("click", urgeOpponent);
-    passFlipBtn.addEventListener("click", () => chooseFlip("none"));
-    flipRowBtn.addEventListener("click", () => chooseFlip("row"));
-    flipColBtn.addEventListener("click", () => chooseFlip("col"));
-    noFlipBtn.addEventListener("click", () => chooseFlip("none"));
-    copyRecordBtn.addEventListener("click", copyRecord);
-
-    renderBoard();
-  </script>
+      <div class="sub">盤面を押すと候補変更</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="row" style="justify-content:space-between"><div id="roomLine" class="sub mono">room: -</div><button id="copyRecordBtn" class="secondary">棋譜</button></div>
+    <div id="log" class="log"></div>
+  </section>
+</main>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import { getDatabase, ref, onValue, get, set, update, runTransaction, serverTimestamp, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+  const firebaseConfig={
+    apiKey:"YOUR_API_KEY",
+    authDomain:"YOUR_PROJECT.firebaseapp.com",
+    databaseURL:"https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+    projectId:"YOUR_PROJECT",
+    storageBucket:"YOUR_PROJECT.appspot.com",
+    messagingSenderId:"YOUR_SENDER_ID",
+    appId:"YOUR_APP_ID"
+  };
+
+  const app=initializeApp(firebaseConfig),db=getDatabase(app);
+  const N=6,BLACK="black",WHITE="white",COLORS=[BLACK,WHITE];
+  const $=id=>document.getElementById(id);
+  const boardEl=$("board"),joinCard=$("joinCard"),nameInput=$("nameInput"),roomInput=$("roomInput"),joinBtn=$("joinBtn"),copyUrlBtn=$("copyUrlBtn"),resetBtn=$("resetBtn"),statusMain=$("statusMain"),statusSub=$("statusSub"),timerText=$("timerText"),blackPlayer=$("blackPlayer"),whitePlayer=$("whitePlayer"),blackName=$("blackName"),whiteName=$("whiteName"),blackCount=$("blackCount"),whiteCount=$("whiteCount"),urgeBtn=$("urgeBtn"),passFlipBtn=$("passFlipBtn"),flipPanel=$("flipPanel"),flipInfo=$("flipInfo"),flipRowBtn=$("flipRowBtn"),flipColBtn=$("flipColBtn"),noFlipBtn=$("noFlipBtn"),roomLine=$("roomLine"),copyRecordBtn=$("copyRecordBtn"),logEl=$("log");
+
+  const params=new URLSearchParams(location.search),urlRoom=params.get("r")||"",urlKey=params.get("key")||"public";
+  const deviceId=localStorage.getItem("flipBattleDeviceId")||crypto.randomUUID();localStorage.setItem("flipBattleDeviceId",deviceId);
+  roomInput.value=urlRoom||`room-${Math.random().toString(36).slice(2,8)}`;nameInput.value=localStorage.getItem("flipBattleName")||"";
+
+  let roomId="",roomKey=urlKey,gameRef=null,playersRef=null,myColor=null,state=null,selectedFlipCell=null,timerInterval=null,joining=false,acting=false;
+
+  const safeKey=s=>String(s||"public").trim().replace(/[.#$\[\]/]/g,"_").slice(0,80)||"public";
+  const emptyBoard=()=>Array.from({length:N},()=>Array.from({length:N},()=>null));
+  const initState=()=>({version:0,board:emptyBoard(),turn:BLACK,phase:"place",started:false,winner:null,loser:null,endReason:"",lastMove:null,flipChooser:null,urge:null,moveNo:0,log:[]});
+  const other=c=>c===BLACK?WHITE:BLACK;const ja=c=>c===BLACK?"黒":c===WHITE?"白":c==="draw"?"引分":"-";
+  const clone=b=>b.map(r=>r.slice());const logLine=t=>`[${new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}] ${t}`;const trim=a=>(a||[]).slice(-70);
+  const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
+
+  function count(b){let black=0,white=0;for(const r of b)for(const v of r){if(v===BLACK)black++;if(v===WHITE)white++;}return{black,white};}
+  function full(b){return b.every(r=>r.every(Boolean));}
+  function anyStone(b){return b.some(r=>r.some(Boolean));}
+  function adjacent(b,r,c){for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){if(!dr&&!dc)continue;const nr=r+dr,nc=c+dc;if(0<=nr&&nr<N&&0<=nc&&nc<N&&b[nr][nc])return true;}return false;}
+  function legalPlace(b,r,c){return 0<=r&&r<N&&0<=c&&c<N&&!b[r][c]&&(!anyStone(b)||adjacent(b,r,c));}
+  function legalMoves(b){const a=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(legalPlace(b,r,c))a.push({r,c});return a;}
+  function flipVal(v){return v===BLACK?WHITE:v===WHITE?BLACK:null;}
+  function flipLine(b,kind,i){const x=clone(b);if(kind==="row")for(let c=0;c<N;c++)x[i][c]=flipVal(x[i][c]);if(kind==="col")for(let r=0;r<N;r++)x[r][i]=flipVal(x[r][i]);return x;}
+  function winnerByCount(b){const c=count(b);return c.black>c.white?BLACK:c.white>c.black?WHITE:"draw";}
+  function normalizeState(s){s=s||initState();if(!Array.isArray(s.board))s.board=emptyBoard();if(!Array.isArray(s.log))s.log=[];if(!s.players)s.players={};return s;}
+  function isMyTurn(){return state&&myColor&&state.phase==="place"&&state.turn===myColor&&!state.winner&&state.started;}
+  function canFlip(){return state&&myColor&&state.phase==="flip"&&state.flipChooser===myColor&&!state.winner;}
+
+  function renderBoard(){boardEl.innerHTML="";const b=state?.board||emptyBoard(),legal=isMyTurn(),legalSet=new Set(legalMoves(b).map(p=>`${p.r},${p.c}`)),last=state?.lastMove;
+    for(let r=0;r<N;r++)for(let c=0;c<N;c++){const cell=document.createElement("button");cell.className="cell";cell.type="button";if(legal&&legalSet.has(`${r},${c}`))cell.classList.add("legal");if(last&&last.r===r&&last.c===c)cell.classList.add("last");if(selectedFlipCell&&selectedFlipCell.r===r&&selectedFlipCell.c===c)cell.classList.add("sel");const v=b[r][c];if(v){const st=document.createElement("div");st.className=`stone ${v}`;cell.appendChild(st);}cell.onclick=()=>onCell(r,c);boardEl.appendChild(cell);}
+  }
+
+  function renderPlayers(){const p=state?.players||{},c=count(state?.board||emptyBoard());blackName.textContent=p.black?`${p.black.name||"名無し"}${myColor===BLACK?" / you":""}`:"空席";whiteName.textContent=p.white?`${p.white.name||"名無し"}${myColor===WHITE?" / you":""}`:"空席";blackCount.textContent=String(c.black);whiteCount.textContent=String(c.white);blackPlayer.classList.toggle("active",state?.turn===BLACK&&!state?.winner);whitePlayer.classList.toggle("active",state?.turn===WHITE&&!state?.winner);}
+
+  function renderStatus(){if(!state){statusMain.textContent="未参加";statusSub.textContent="2人で開始";return;}const p=state.players||{},n=Number(!!p.black)+Number(!!p.white),c=count(state.board||emptyBoard());
+    if(state.winner){statusMain.innerHTML=state.winner==="draw"?`引分：黒${c.black} - 白${c.white}`:`<span class="win">${ja(state.winner)}勝ち</span>`;statusSub.textContent=state.endReason||"終了";}
+    else if(n<2){statusMain.textContent="待機中";statusSub.textContent="相手待ち";}
+    else if(canFlip()){statusMain.textContent="反転を選ぶ";statusSub.textContent="行・列・なし";}
+    else if(state.phase==="flip"){statusMain.textContent=`${ja(state.flipChooser)}が反転中`;statusSub.textContent="少し待ってください";}
+    else{statusMain.textContent=`${ja(state.turn)}の番`;statusSub.textContent=state.turn===myColor?"置いてください":"相手待ち";}
+    roomLine.textContent=`${roomId||"-"} / ${myColor?ja(myColor):"未参加"}`;urgeBtn.disabled=!(state.started&&!state.winner&&state.phase==="place"&&state.turn!==myColor&&myColor)||!!state.urge?.active;passFlipBtn.disabled=!canFlip();}
+
+  function renderFlip(){if(!canFlip()){flipPanel.classList.add("hidden");return;}flipPanel.classList.remove("hidden");const last=state.lastMove;if(!selectedFlipCell){selectedFlipCell=last?{r:last.r===0?1:0,c:last.c===0?1:0}:{r:0,c:0};}flipInfo.textContent=`${selectedFlipCell.r+1}行 / ${selectedFlipCell.c+1}列`;flipRowBtn.disabled=!!last&&selectedFlipCell.r===last.r;flipColBtn.disabled=!!last&&selectedFlipCell.c===last.c;}
+  function renderLog(){logEl.innerHTML=(state?.log||[]).slice().reverse().map(x=>`<div>${esc(x)}</div>`).join("");}
+
+  function renderTimer(){if(timerInterval)clearInterval(timerInterval);const tick=()=>{if(!state?.urge?.active||state.winner){timerText.textContent="";return;}const left=Math.ceil((state.urge.deadline-Date.now())/1000);if(left>0)timerText.textContent=`催促中：残り${left}秒`;else{timerText.textContent="時間切れ判定中";claimTimeout();}};tick();timerInterval=setInterval(tick,250);}
+  function render(){renderBoard();renderPlayers();renderStatus();renderFlip();renderLog();renderTimer();}
+
+  async function ensureRoom(){const snap=await get(gameRef);if(!snap.exists())await set(gameRef,initState());}
+  async function join(){if(joining)return;joining=true;joinBtn.disabled=true;try{const name=(nameInput.value||"").trim()||"名無し";localStorage.setItem("flipBattleName",name);roomId=safeKey(roomInput.value||urlRoom);roomKey=safeKey(urlKey||"public");gameRef=ref(db,`flipBattle6x6/${roomKey}/${roomId}`);playersRef=ref(db,`flipBattle6x6/${roomKey}/${roomId}/players`);await ensureRoom();myColor=null;
+      const res=await runTransaction(playersRef,players=>{players=players||{};for(const c of COLORS){if(players[c]?.deviceId===deviceId){players[c]={...players[c],name,online:true,lastSeen:Date.now()};myColor=c;return players;}}if(!players.black){players.black={name,deviceId,online:true,joinedAt:Date.now(),lastSeen:Date.now()};myColor=BLACK;return players;}if(!players.white){players.white={name,deviceId,online:true,joinedAt:Date.now(),lastSeen:Date.now()};myColor=WHITE;return players;}return;});
+      if(!res.committed||!myColor){alert("満席です");joinBtn.disabled=false;return;}const mine=ref(db,`flipBattle6x6/${roomKey}/${roomId}/players/${myColor}`);onDisconnect(mine).update({online:false,lastSeen:serverTimestamp()});await update(mine,{online:true,lastSeen:Date.now(),name});joinCard.classList.add("hidden");onValue(gameRef,snap=>{state=normalizeState(snap.val());autostart();selectedFlipCell=selectedFlipCell&&0<=selectedFlipCell.r&&selectedFlipCell.r<N&&0<=selectedFlipCell.c&&selectedFlipCell.c<N?selectedFlipCell:null;render();});}
+    finally{joining=false;}}
+
+  async function autostart(){if(!gameRef||!state||state.started||state.winner)return;const p=state.players||{};if(p.black&&p.white)await runTransaction(gameRef,s=>{s=normalizeState(s);if(!s.started&&s.players?.black&&s.players?.white){s.started=true;s.log=trim([...(s.log||[]),logLine("開始")]);}return s;});}
+
+  async function onCell(r,c){if(acting||!state||!gameRef||!myColor||state.winner)return;if(canFlip()){selectedFlipCell={r,c};render();return;}if(!isMyTurn())return;acting=true;try{await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="place"||s.turn!==myColor||!s.started)return s;const b=s.board||emptyBoard();if(!legalPlace(b,r,c))return s;const nb=clone(b);nb[r][c]=myColor;s.board=nb;s.phase="flip";s.flipChooser=myColor;s.lastMove={r,c,color:myColor,at:Date.now()};s.moveNo=(s.moveNo||0)+1;s.urge=null;s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} (${r+1},${c+1})`)]);return s;});}finally{acting=false;}}
+
+  async function chooseFlip(kind){if(acting||!canFlip())return;const last=state.lastMove;let idx=null;if(kind==="row"){if(!selectedFlipCell||selectedFlipCell.r===last?.r)return;idx=selectedFlipCell.r;}if(kind==="col"){if(!selectedFlipCell||selectedFlipCell.c===last?.c)return;idx=selectedFlipCell.c;}acting=true;try{await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="flip"||s.flipChooser!==myColor)return s;let b=s.board||emptyBoard(),text="なし";if(kind==="row"){if(idx===s.lastMove?.r)return s;b=flipLine(b,"row",idx);text=`${idx+1}行反転`;}if(kind==="col"){if(idx===s.lastMove?.c)return s;b=flipLine(b,"col",idx);text=`${idx+1}列反転`;}s.board=b;s.phase="place";s.flipChooser=null;s.turn=other(myColor);s.urge=null;s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} ${text}`)]);if(full(b)||legalMoves(b).length===0){s.winner=winnerByCount(b);s.endReason=full(b)?"盤面終了":"合法手なし";s.log=trim([...(s.log||[]),logLine("終了")]);}return s;});selectedFlipCell=null;}finally{acting=false;}}
+
+  async function urge(){if(acting||!state||!gameRef||!myColor||state.winner||state.phase!=="place"||state.turn===myColor)return;acting=true;try{const target=state.turn;await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="place"||s.turn!==target||s.urge?.active)return s;s.urge={active:true,by:myColor,target,moveNo:s.moveNo||0,deadline:Date.now()+7000};s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} 催促`)]);return s;});}finally{acting=false;}}
+
+  async function claimTimeout(){if(!state?.urge?.active||!gameRef||state.winner||Date.now()<state.urge.deadline)return;await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||!s.urge?.active||Date.now()<s.urge.deadline)return s;if(s.phase!=="place"||(s.moveNo||0)!==s.urge.moveNo){s.urge=null;return s;}const loser=s.urge.target,winner=other(loser);s.winner=winner;s.loser=loser;s.endReason=`${ja(loser)} 時間切れ`;s.log=trim([...(s.log||[]),logLine(`${ja(winner)} 勝ち：時間切れ`)]);return s;});}
+
+  async function resetGame(){const r=safeKey(roomInput.value||urlRoom),k=safeKey(urlKey||"public");if(!gameRef)gameRef=ref(db,`flipBattle6x6/${k}/${r}`);if(!confirm("リセットしますか？"))return;await runTransaction(gameRef,s=>{const players=s?.players||{};const ns=initState();ns.players=players;ns.started=!!(players.black&&players.white);ns.log=trim([logLine("リセット")]);return ns;});}
+  async function copyUrl(){const r=safeKey(roomInput.value||urlRoom),k=safeKey(urlKey||"public"),u=`${location.origin}${location.pathname}?r=${encodeURIComponent(r)}&key=${encodeURIComponent(k)}`;await navigator.clipboard.writeText(u);alert("コピーしました");}
+  async function copyRecord(){if(!state)return;const c=count(state.board||emptyBoard()),lines=["6x6 Flip",`room: ${roomId||safeKey(roomInput.value)}`,`result: ${state.winner?ja(state.winner):"playing"}`,`black ${c.black} / white ${c.white}`,"board:"];for(const row of state.board||emptyBoard())lines.push(row.map(v=>v===BLACK?"B":v===WHITE?"W":".").join(" "));lines.push("log:",...(state.log||[]));await navigator.clipboard.writeText(lines.join("
+"));alert("棋譜をコピーしました");}
+
+  joinBtn.onclick=join;copyUrlBtn.onclick=copyUrl;resetBtn.onclick=resetGame;urgeBtn.onclick=urge;passFlipBtn.onclick=()=>chooseFlip("none");flipRowBtn.onclick=()=>chooseFlip("row");flipColBtn.onclick=()=>chooseFlip("col");noFlipBtn.onclick=()=>chooseFlip("none");copyRecordBtn.onclick=copyRecord;renderBoard();
+</script>
 </body>
 </html>
