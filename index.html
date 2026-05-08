@@ -14,22 +14,22 @@
     body{margin:0;min-height:100svh;background:radial-gradient(circle at top,#25304a,#0f1117 52%,#07080c);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:max(10px,env(safe-area-inset-top)) 10px max(14px,env(safe-area-inset-bottom));display:flex;justify-content:center}
     .app{width:min(720px,100%);display:grid;gap:9px}.card{background:rgba(24,28,37,.95);border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:0 12px 40px rgba(0,0,0,.28)}
     .head{display:flex;justify-content:space-between;align-items:center;gap:8px}h1{font-size:19px;margin:0}.sub{font-size:12px;color:var(--sub);line-height:1.35}.main{font-weight:900;font-size:15px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-    .row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+    .row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
     input,select{width:100%;font-size:16px;color:var(--text);background:#101521;border:1px solid var(--line);border-radius:12px;padding:10px;outline:none}
-    button{border:0;border-radius:12px;min-height:40px;padding:9px 12px;background:var(--blue);color:#061018;font-weight:900;cursor:pointer;touch-action:manipulation}button.secondary{background:#303748;color:var(--text);border:1px solid var(--line)}button.warn{background:var(--yellow);color:#241600}button.danger{background:var(--red);color:white}button:disabled{opacity:.42;cursor:not-allowed}
+    button{border:0;border-radius:12px;min-height:40px;padding:9px 12px;background:var(--blue);color:#061018;font-weight:900;cursor:pointer;touch-action:manipulation}button.secondary{background:#303748;color:var(--text);border:1px solid var(--line)}button.warn{background:var(--yellow);color:#241600}button:disabled{opacity:.42;cursor:not-allowed}
     .status{display:grid;gap:4px;background:rgba(255,255,255,.045);border-radius:13px;border:1px solid var(--line);padding:9px}.players{display:grid;grid-template-columns:1fr 1fr;gap:8px}.player{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:9px;min-width:0}.player.active{outline:2px solid var(--blue)}
     .tag{display:inline-flex;gap:7px;align-items:center;font-weight:900}.dot{width:17px;height:17px;border-radius:50%;border:1px solid rgba(255,255,255,.45)}.dot.black{background:#050505}.dot.white{background:#f7f7f7}
     .boardWrap{display:flex;justify-content:center}.board{display:grid;grid-template-columns:repeat(6,var(--cell));grid-template-rows:repeat(6,var(--cell));gap:5px;padding:8px;border-radius:16px;background:linear-gradient(135deg,#4d6235,#26341d);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 0 18px rgba(0,0,0,.38)}
-    .cell{width:var(--cell);height:var(--cell);border-radius:12px;border:1px solid rgba(255,255,255,.15);background:radial-gradient(circle at 35% 30%,#6f904b,#395527);display:grid;place-items:center;position:relative;cursor:pointer;touch-action:manipulation;padding:0}.cell.legal:after{content:"";position:absolute;width:28%;height:28%;border-radius:50%;background:rgba(118,215,255,.48);box-shadow:0 0 14px rgba(118,215,255,.65)}.cell.last{outline:3px solid var(--yellow);outline-offset:-3px}.cell.sel{outline:3px solid var(--blue);outline-offset:-3px}
-    .stone{width:76%;height:76%;border-radius:50%;z-index:2;box-shadow:0 7px 12px rgba(0,0,0,.35),inset 0 4px 6px rgba(255,255,255,.16)}.stone.black{background:radial-gradient(circle at 32% 28%,#5b5b5b,#050505 58%,#000);border:1px solid #000}.stone.white{background:radial-gradient(circle at 35% 28%,#fff,#e7e7e7 62%,#bfc4ca);border:1px solid #d4d9df}
-    .actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.flip{display:grid;gap:7px;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:9px}.flipBtns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.log{max-height:105px;overflow:auto;color:var(--sub);font-size:12px;line-height:1.45}.hidden{display:none!important}.win{color:var(--green);font-weight:900}
-    @media(max-width:560px){:root{--cell:min(14.8vw,56px)}.grid2,.grid3{grid-template-columns:1fr}.card{border-radius:14px;padding:9px}h1{font-size:18px}.actions,.flipBtns{grid-template-columns:1fr 1fr}.flipBtns button:last-child{grid-column:1/3}}
+    .cell{width:var(--cell);height:var(--cell);border-radius:12px;border:1px solid rgba(255,255,255,.15);background:radial-gradient(circle at 35% 30%,#6f904b,#395527);display:grid;place-items:center;position:relative;cursor:pointer;touch-action:manipulation;padding:0}.cell.legal:after{content:"";position:absolute;width:28%;height:28%;border-radius:50%;background:rgba(118,215,255,.48);box-shadow:0 0 14px rgba(118,215,255,.65)}.cell.last{outline:3px solid var(--yellow);outline-offset:-3px}
+    .stone{width:76%;height:76%;border-radius:50%;z-index:2;display:grid;place-items:center;font-weight:1000;font-size:clamp(14px,4vw,22px);box-shadow:0 7px 12px rgba(0,0,0,.35),inset 0 4px 6px rgba(255,255,255,.16)}.stone.black{background:radial-gradient(circle at 32% 28%,#5b5b5b,#050505 58%,#000);border:1px solid #000;color:#fff}.stone.white{background:radial-gradient(circle at 35% 28%,#fff,#e7e7e7 62%,#bfc4ca);border:1px solid #d4d9df;color:#111}
+    .actions{display:grid;grid-template-columns:1fr;gap:7px}.flip{display:grid;gap:7px;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:9px}.flipBtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}.log{max-height:105px;overflow:auto;color:var(--sub);font-size:12px;line-height:1.45}.hidden{display:none!important}.win{color:var(--green);font-weight:900}
+    @media(max-width:560px){:root{--cell:min(14.8vw,56px)}.grid3{grid-template-columns:1fr}.card{border-radius:14px;padding:9px}h1{font-size:18px}.flipBtns{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
 <main class="app">
   <section class="card head">
-    <div><h1>6x6 Flip</h1><div class="sub">置く → 行/列を反転</div></div>
+    <div><h1>6x6 Flip</h1><div class="sub">置く → 横/縦を必ず反転</div></div>
     <button id="resetBtn" class="secondary">リセット</button>
   </section>
 
@@ -44,30 +44,26 @@
 
   <section class="card status">
     <div id="statusMain" class="main">未参加</div>
-    <div id="statusSub" class="sub">オンライン or AI</div>
+    <div id="statusSub" class="sub">石の数字の合計が点数</div>
     <div id="timerText" class="sub"></div>
   </section>
 
   <section class="card players">
-    <div id="blackPlayer" class="player"><div class="tag"><span class="dot black"></span>黒</div><div id="blackName" class="sub">空席</div><div id="blackCount" class="sub">0</div></div>
-    <div id="whitePlayer" class="player"><div class="tag"><span class="dot white"></span>白</div><div id="whiteName" class="sub">空席</div><div id="whiteCount" class="sub">0</div></div>
+    <div id="blackPlayer" class="player"><div class="tag"><span class="dot black"></span>黒</div><div id="blackName" class="sub">空席</div><div id="blackScore" class="sub">0点 / 0石</div></div>
+    <div id="whitePlayer" class="player"><div class="tag"><span class="dot white"></span>白</div><div id="whiteName" class="sub">空席</div><div id="whiteScore" class="sub">0点 / 0石</div></div>
   </section>
 
   <section class="card boardWrap"><div id="board" class="board"></div></section>
 
   <section class="card" style="display:grid;gap:8px">
-    <div class="actions">
-      <button id="urgeBtn" class="warn">催促</button>
-      <button id="passFlipBtn" class="secondary">反転なし</button>
-    </div>
+    <div class="actions"><button id="urgeBtn" class="warn">催促</button></div>
     <div id="flipPanel" class="flip hidden">
-      <div id="flipInfo" class="main">反転選択</div>
+      <div id="flipInfo" class="main">反転方向</div>
       <div class="flipBtns">
-        <button id="flipRowBtn">行</button>
-        <button id="flipColBtn">列</button>
-        <button id="noFlipBtn" class="secondary">なし</button>
+        <button id="flipRowBtn">横</button>
+        <button id="flipColBtn">縦</button>
       </div>
-      <div class="sub">盤面を押すと候補変更</div>
+      <div class="sub">置いた石を起点に、同じ行または列の他の石を反転します。</div>
     </div>
   </section>
 
@@ -94,86 +90,85 @@
   let app=null,db=null;
   const N=6,BLACK="black",WHITE="white",COLORS=[BLACK,WHITE];
   const $=id=>document.getElementById(id);
-  const boardEl=$("board"),joinCard=$("joinCard"),nameInput=$("nameInput"),roomInput=$("roomInput"),modeInput=$("modeInput"),joinBtn=$("joinBtn"),copyUrlBtn=$("copyUrlBtn"),resetBtn=$("resetBtn"),statusMain=$("statusMain"),statusSub=$("statusSub"),timerText=$("timerText"),blackPlayer=$("blackPlayer"),whitePlayer=$("whitePlayer"),blackName=$("blackName"),whiteName=$("whiteName"),blackCount=$("blackCount"),whiteCount=$("whiteCount"),urgeBtn=$("urgeBtn"),passFlipBtn=$("passFlipBtn"),flipPanel=$("flipPanel"),flipInfo=$("flipInfo"),flipRowBtn=$("flipRowBtn"),flipColBtn=$("flipColBtn"),noFlipBtn=$("noFlipBtn"),roomLine=$("roomLine"),copyRecordBtn=$("copyRecordBtn"),logEl=$("log");
+  const boardEl=$("board"),joinCard=$("joinCard"),nameInput=$("nameInput"),roomInput=$("roomInput"),modeInput=$("modeInput"),joinBtn=$("joinBtn"),copyUrlBtn=$("copyUrlBtn"),resetBtn=$("resetBtn"),statusMain=$("statusMain"),statusSub=$("statusSub"),timerText=$("timerText"),blackPlayer=$("blackPlayer"),whitePlayer=$("whitePlayer"),blackName=$("blackName"),whiteName=$("whiteName"),blackScore=$("blackScore"),whiteScore=$("whiteScore"),urgeBtn=$("urgeBtn"),flipPanel=$("flipPanel"),flipInfo=$("flipInfo"),flipRowBtn=$("flipRowBtn"),flipColBtn=$("flipColBtn"),roomLine=$("roomLine"),copyRecordBtn=$("copyRecordBtn"),logEl=$("log");
   const params=new URLSearchParams(location.search),urlRoom=params.get("r")||"",urlKey=params.get("key")||"public";
   const deviceId=localStorage.getItem("flipBattleDeviceId")||crypto.randomUUID();localStorage.setItem("flipBattleDeviceId",deviceId);
   roomInput.value=urlRoom||`room-${Math.random().toString(36).slice(2,8)}`;nameInput.value=localStorage.getItem("flipBattleName")||"";
 
-  let roomId="",roomKey=urlKey,gameRef=null,playersRef=null,myColor=null,state=null,selectedFlipCell=null,timerInterval=null,joining=false,acting=false,mode="online",localAI=false,aiThinking=false;
+  let roomId="",roomKey=urlKey,gameRef=null,playersRef=null,myColor=null,state=null,timerInterval=null,joining=false,acting=false,localAI=false,aiThinking=false;
 
   const safeKey=s=>String(s||"public").trim().replace(/[.#$\[\]/]/g,"_").slice(0,80)||"public";
   const emptyBoard=()=>Array.from({length:N},()=>Array.from({length:N},()=>null));
-  const initState=()=>({version:0,board:emptyBoard(),turn:BLACK,phase:"place",started:false,winner:null,loser:null,endReason:"",lastMove:null,flipChooser:null,urge:null,moveNo:0,log:[]});
+  const newStone=color=>({color,flip:0});
+  const initState=()=>({version:1,board:emptyBoard(),turn:BLACK,phase:"place",started:false,winner:null,loser:null,endReason:"",lastMove:null,flipChooser:null,urge:null,moveNo:0,log:[]});
   const other=c=>c===BLACK?WHITE:BLACK;const ja=c=>c===BLACK?"黒":c===WHITE?"白":c==="draw"?"引分":"-";
-  const clone=b=>b.map(r=>r.slice());const logLine=t=>`[${new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}] ${t}`;const trim=a=>(a||[]).slice(-70);
+  const clone=b=>b.map(r=>r.map(v=>v?{color:v.color,flip:Number(v.flip)||0}:null));
+  const logLine=t=>`[${new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}] ${t}`;const trim=a=>(a||[]).slice(-70);
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
 
-  function count(b){let black=0,white=0;for(const r of b)for(const v of r){if(v===BLACK)black++;if(v===WHITE)white++;}return{black,white};}
+  function normalizeCell(v){if(!v)return null;if(typeof v==="string")return {color:v,flip:0};return {color:v.color===WHITE?WHITE:BLACK,flip:Number(v.flip)||0};}
+  function normalizeBoard(b){if(!Array.isArray(b))return emptyBoard();return Array.from({length:N},(_,r)=>Array.from({length:N},(_,c)=>normalizeCell(b?.[r]?.[c])));}
+  function normalizeState(s){s=s||initState();s.board=normalizeBoard(s.board);if(!Array.isArray(s.log))s.log=[];if(!s.players)s.players={};return s;}
+  function counts(b){let blackStones=0,whiteStones=0,blackScore=0,whiteScore=0;for(const row of b)for(const v of row){if(!v)continue;if(v.color===BLACK){blackStones++;blackScore+=v.flip;}else{whiteStones++;whiteScore+=v.flip;}}return{blackStones,whiteStones,blackScore,whiteScore};}
   function full(b){return b.every(r=>r.every(Boolean));}
   function anyStone(b){return b.some(r=>r.some(Boolean));}
   function adjacent(b,r,c){for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){if(!dr&&!dc)continue;const nr=r+dr,nc=c+dc;if(0<=nr&&nr<N&&0<=nc&&nc<N&&b[nr][nc])return true;}return false;}
   function legalPlace(b,r,c){return 0<=r&&r<N&&0<=c&&c<N&&!b[r][c]&&(!anyStone(b)||adjacent(b,r,c));}
   function legalMoves(b){const a=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(legalPlace(b,r,c))a.push({r,c});return a;}
-  function flipVal(v){return v===BLACK?WHITE:v===WHITE?BLACK:null;}
-  function flipLine(b,kind,i){const x=clone(b);if(kind==="row")for(let c=0;c<N;c++)x[i][c]=flipVal(x[i][c]);if(kind==="col")for(let r=0;r<N;r++)x[r][i]=flipVal(x[r][i]);return x;}
-  function winnerByCount(b){const c=count(b);return c.black>c.white?BLACK:c.white>c.black?WHITE:"draw";}
-  function normalizeState(s){s=s||initState();if(!Array.isArray(s.board))s.board=emptyBoard();if(!Array.isArray(s.log))s.log=[];if(!s.players)s.players={};return s;}
+  function flipStone(v){return v?{color:other(v.color),flip:(Number(v.flip)||0)+1}:null;}
+  function flipFromPlaced(b,kind,last){const x=clone(b);if(!last)return x;if(kind==="row"){for(let c=0;c<N;c++)if(c!==last.c)x[last.r][c]=flipStone(x[last.r][c]);}if(kind==="col"){for(let r=0;r<N;r++)if(r!==last.r)x[r][last.c]=flipStone(x[r][last.c]);}return x;}
+  function winnerByScore(b){const c=counts(b);if(c.blackScore!==c.whiteScore)return c.blackScore>c.whiteScore?BLACK:WHITE;if(c.blackStones!==c.whiteStones)return c.blackStones>c.whiteStones?BLACK:WHITE;return "draw";}
   function refreshMyColor(){const p=state?.players||{};if(localAI){myColor=BLACK;return;}if(p.black?.deviceId===deviceId)myColor=BLACK;else if(p.white?.deviceId===deviceId)myColor=WHITE;}
   function isMyTurn(){return state&&myColor&&state.phase==="place"&&state.turn===myColor&&!state.winner&&state.started;}
   function canFlip(){return state&&myColor&&state.phase==="flip"&&state.flipChooser===myColor&&!state.winner;}
 
-  function lineGain(b,kind,i,color){let my=0,op=0; if(kind==="row"){for(let c=0;c<N;c++){if(b[i][c]===color)my++;if(b[i][c]===other(color))op++;}}else{for(let r=0;r<N;r++){if(b[r][i]===color)my++;if(b[r][i]===other(color))op++;}}return op-my;}
-  function mobility(b){return legalMoves(b).length;}
-  function centerScore(b,color){let s=0;for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(b[r][c]===color){const d=Math.abs(r-2.5)+Math.abs(c-2.5);s+=5-d;}return s;}
-  function evaluate(b,color){const c=count(b);const material=(color===BLACK?c.black-c.white:c.white-c.black);return material*12+centerScore(b,color)*0.6+mobility(b)*0.8;}
-  function legalFlipOptions(last){const a=[{kind:"none",idx:null}];for(let r=0;r<N;r++)if(!last||r!==last.r)a.push({kind:"row",idx:r});for(let c=0;c<N;c++)if(!last||c!==last.c)a.push({kind:"col",idx:c});return a;}
-  function simulateMove(s,color,r,c,flip){let b=clone(s.board);b[r][c]=color;if(flip.kind!=="none")b=flipLine(b,flip.kind,flip.idx);return b;}
-  function bestAction(s,color){const moves=legalMoves(s.board);let best=null,bestScore=-1e18;for(const m of moves){const last={r:m.r,c:m.c};for(const f of legalFlipOptions(last)){const b=simulateMove(s,color,m.r,m.c,f);let score=evaluate(b,color);const opp=legalMoves(b);let oppBest=-1e18;for(const om of opp.slice(0,16)){for(const of of legalFlipOptions({r:om.r,c:om.c}).slice(0,7)){oppBest=Math.max(oppBest,evaluate(simulateMove({board:b},other(color),om.r,om.c,of),other(color)));}}if(opp.length)score-=oppBest*0.35;score+=Math.random()*0.25;if(score>bestScore){bestScore=score;best={r:m.r,c:m.c,flip:f,score};}}}return best;}
+  function linePotential(b,kind,last,color){let s=0;if(kind==="row"){for(let c=0;c<N;c++){if(c===last.c)continue;const v=b[last.r][c];if(v)s+=v.color===other(color)?2+v.flip:-(1+v.flip);}}else{for(let r=0;r<N;r++){if(r===last.r)continue;const v=b[r][last.c];if(v)s+=v.color===other(color)?2+v.flip:-(1+v.flip);}}return s;}
+  function centerScore(b,color){let s=0;for(let r=0;r<N;r++)for(let c=0;c<N;c++){const v=b[r][c];if(v?.color===color){const d=Math.abs(r-2.5)+Math.abs(c-2.5);s+=5-d;}}return s;}
+  function evaluate(b,color){const c=counts(b);const myScore=color===BLACK?c.blackScore:c.whiteScore,opScore=color===BLACK?c.whiteScore:c.blackScore;const mySt=color===BLACK?c.blackStones:c.whiteStones,opSt=color===BLACK?c.whiteStones:c.blackStones;return (myScore-opScore)*16+(mySt-opSt)*3+centerScore(b,color)*0.5+legalMoves(b).length*0.5;}
+  function simulateMove(s,color,r,c,kind){let b=clone(s.board);b[r][c]=newStone(color);b=flipFromPlaced(b,kind,{r,c});return b;}
+  function bestAction(s,color){const moves=legalMoves(s.board);let best=null,bestScore=-1e18;for(const m of moves){for(const kind of ["row","col"]){const b=simulateMove(s,color,m.r,m.c,kind);let score=evaluate(b,color)+linePotential(s.board,kind,m,color)*0.8;const opp=legalMoves(b);let oppBest=-1e18;for(const om of opp.slice(0,18)){for(const ok of ["row","col"]){oppBest=Math.max(oppBest,evaluate(simulateMove({board:b},other(color),om.r,om.c,ok),other(color)));}}if(opp.length)score-=oppBest*0.32;score+=Math.random()*0.2;if(score>bestScore){bestScore=score;best={r:m.r,c:m.c,kind,score};}}}return best;}
 
   function renderBoard(){boardEl.innerHTML="";const b=state?.board||emptyBoard(),legal=isMyTurn(),legalSet=new Set(legalMoves(b).map(p=>`${p.r},${p.c}`)),last=state?.lastMove;
-    for(let r=0;r<N;r++)for(let c=0;c<N;c++){const cell=document.createElement("button");cell.className="cell";cell.type="button";if(legal&&legalSet.has(`${r},${c}`))cell.classList.add("legal");if(last&&last.r===r&&last.c===c)cell.classList.add("last");if(selectedFlipCell&&selectedFlipCell.r===r&&selectedFlipCell.c===c)cell.classList.add("sel");const v=b[r][c];if(v){const st=document.createElement("div");st.className=`stone ${v}`;cell.appendChild(st);}cell.onclick=()=>onCell(r,c);boardEl.appendChild(cell);}
+    for(let r=0;r<N;r++)for(let c=0;c<N;c++){const cell=document.createElement("button");cell.className="cell";cell.type="button";if(legal&&legalSet.has(`${r},${c}`))cell.classList.add("legal");if(last&&last.r===r&&last.c===c)cell.classList.add("last");const v=b[r][c];if(v){const st=document.createElement("div");st.className=`stone ${v.color}`;st.textContent=String(v.flip);cell.appendChild(st);}cell.onclick=()=>onCell(r,c);boardEl.appendChild(cell);}
   }
-  function renderPlayers(){const p=state?.players||{},c=count(state?.board||emptyBoard());blackName.textContent=localAI?"あなた":p.black?`${p.black.name||"名無し"}${myColor===BLACK?" / you":""}`:"空席";whiteName.textContent=localAI?"AI":p.white?`${p.white.name||"名無し"}${myColor===WHITE?" / you":""}`:"空席";blackCount.textContent=String(c.black);whiteCount.textContent=String(c.white);blackPlayer.classList.toggle("active",state?.turn===BLACK&&!state?.winner);whitePlayer.classList.toggle("active",state?.turn===WHITE&&!state?.winner);}
-  function renderStatus(){if(!state){statusMain.textContent="未参加";statusSub.textContent="オンライン or AI";return;}const p=state.players||{},n=localAI?2:Number(!!p.black)+Number(!!p.white),c=count(state.board||emptyBoard());
-    if(state.winner){statusMain.innerHTML=state.winner==="draw"?`引分：黒${c.black} - 白${c.white}`:`<span class="win">${ja(state.winner)}勝ち</span>`;statusSub.textContent=state.endReason||"終了";}
+  function renderPlayers(){const p=state?.players||{},c=counts(state?.board||emptyBoard());blackName.textContent=localAI?"あなた":p.black?`${p.black.name||"名無し"}${myColor===BLACK?" / you":""}`:"空席";whiteName.textContent=localAI?"AI":p.white?`${p.white.name||"名無し"}${myColor===WHITE?" / you":""}`:"空席";blackScore.textContent=`${c.blackScore}点 / ${c.blackStones}石`;whiteScore.textContent=`${c.whiteScore}点 / ${c.whiteStones}石`;blackPlayer.classList.toggle("active",state?.turn===BLACK&&!state?.winner);whitePlayer.classList.toggle("active",state?.turn===WHITE&&!state?.winner);}
+  function renderStatus(){if(!state){statusMain.textContent="未参加";statusSub.textContent="オンライン or AI";return;}const p=state.players||{},n=localAI?2:Number(!!p.black)+Number(!!p.white),c=counts(state.board||emptyBoard());
+    if(state.winner){statusMain.innerHTML=state.winner==="draw"?`引分：黒${c.blackScore} - 白${c.whiteScore}`:`<span class="win">${ja(state.winner)}勝ち</span>`;statusSub.textContent=`黒${c.blackScore}点 / 白${c.whiteScore}点`;}
     else if(n<2){statusMain.textContent="待機中";statusSub.textContent="相手待ち";}
-    else if(canFlip()){statusMain.textContent="反転を選ぶ";statusSub.textContent="行・列・なし";}
+    else if(canFlip()){statusMain.textContent="反転方向";statusSub.textContent="置いた石から横 or 縦";}
     else if(state.phase==="flip"){statusMain.textContent=`${ja(state.flipChooser)}が反転中`;statusSub.textContent="少し待ってください";}
     else if(localAI&&state.turn===WHITE){statusMain.textContent="AI思考中";statusSub.textContent="少し待ってください";}
     else{statusMain.textContent=`${ja(state.turn)}の番`;statusSub.textContent=state.turn===myColor?"置いてください":"相手待ち";}
-    roomLine.textContent=localAI?"AI mode":`${roomId||"-"} / ${myColor?ja(myColor):"未参加"}`;urgeBtn.disabled=localAI||!(state.started&&!state.winner&&state.phase==="place"&&state.turn!==myColor&&myColor)||!!state.urge?.active;passFlipBtn.disabled=!canFlip();}
-  function renderFlip(){if(!canFlip()){flipPanel.classList.add("hidden");return;}flipPanel.classList.remove("hidden");const last=state.lastMove;if(!selectedFlipCell){selectedFlipCell=last?{r:last.r===0?1:0,c:last.c===0?1:0}:{r:0,c:0};}flipInfo.textContent=`${selectedFlipCell.r+1}行 / ${selectedFlipCell.c+1}列`;flipRowBtn.disabled=!!last&&selectedFlipCell.r===last.r;flipColBtn.disabled=!!last&&selectedFlipCell.c===last.c;}
+    roomLine.textContent=localAI?"AI mode":`${roomId||"-"} / ${myColor?ja(myColor):"未参加"}`;urgeBtn.disabled=localAI||!(state.started&&!state.winner&&state.phase==="place"&&state.turn!==myColor&&myColor)||!!state.urge?.active;}
+  function renderFlip(){if(!canFlip()){flipPanel.classList.add("hidden");return;}flipPanel.classList.remove("hidden");const last=state.lastMove;flipInfo.textContent=last?`起点：${last.r+1}行 ${last.c+1}列`:"反転方向";}
   function renderLog(){logEl.innerHTML=(state?.log||[]).slice().reverse().map(x=>`<div>${esc(x)}</div>`).join("");}
   function renderTimer(){if(timerInterval)clearInterval(timerInterval);const tick=()=>{if(!state?.urge?.active||state.winner){timerText.textContent="";return;}const left=Math.ceil((state.urge.deadline-Date.now())/1000);if(left>0)timerText.textContent=`催促中：残り${left}秒`;else{timerText.textContent="時間切れ判定中";claimTimeout();}};tick();timerInterval=setInterval(tick,250);}
   function render(){refreshMyColor();renderBoard();renderPlayers();renderStatus();renderFlip();renderLog();renderTimer();maybeAI();}
 
-  function startLocalAI(){localAI=true;mode="ai";myColor=BLACK;state=initState();state.started=true;state.players={black:{name:(nameInput.value||"あなた"),deviceId},white:{name:"AI",deviceId:"AI"}};state.log=[logLine("AI対戦開始")];joinCard.classList.add("hidden");render();}
+  function startLocalAI(){localAI=true;myColor=BLACK;state=initState();state.started=true;state.players={black:{name:(nameInput.value||"あなた"),deviceId},white:{name:"AI",deviceId:"AI"}};state.log=[logLine("AI対戦開始")];joinCard.classList.add("hidden");render();}
   function applyLocal(mutator){state=normalizeState(mutator(structuredClone(state)));render();}
-
   async function ensureFirebase(){if(app)return true;try{app=initializeApp(firebaseConfig);db=getDatabase(app);return true;}catch(e){alert("Firebase設定を確認してください");return false;}}
   async function ensureRoom(){const snap=await get(gameRef);if(!snap.exists())await set(gameRef,initState());}
-  async function join(){if(joining)return;joining=true;joinBtn.disabled=true;try{localStorage.setItem("flipBattleName",(nameInput.value||"").trim()||"名無し");if(modeInput.value==="ai"){startLocalAI();return;}mode="online";localAI=false;if(!(await ensureFirebase()))return;const name=(nameInput.value||"").trim()||"名無し";roomId=safeKey(roomInput.value||urlRoom);roomKey=safeKey(urlKey||"public");gameRef=ref(db,`flipBattle6x6/${roomKey}/${roomId}`);playersRef=ref(db,`flipBattle6x6/${roomKey}/${roomId}/players`);await ensureRoom();myColor=null;
+  async function join(){if(joining)return;joining=true;joinBtn.disabled=true;try{localStorage.setItem("flipBattleName",(nameInput.value||"").trim()||"名無し");if(modeInput.value==="ai"){startLocalAI();return;}localAI=false;if(!(await ensureFirebase()))return;const name=(nameInput.value||"").trim()||"名無し";roomId=safeKey(roomInput.value||urlRoom);roomKey=safeKey(urlKey||"public");gameRef=ref(db,`flipBattle6x6/${roomKey}/${roomId}`);playersRef=ref(db,`flipBattle6x6/${roomKey}/${roomId}/players`);await ensureRoom();myColor=null;
       const res=await runTransaction(playersRef,players=>{players=players||{};for(const c of COLORS){if(players[c]?.deviceId===deviceId){players[c]={...players[c],name,online:true,lastSeen:Date.now()};myColor=c;return players;}}if(!players.black){players.black={name,deviceId,online:true,joinedAt:Date.now(),lastSeen:Date.now()};myColor=BLACK;return players;}if(!players.white){players.white={name,deviceId,online:true,joinedAt:Date.now(),lastSeen:Date.now()};myColor=WHITE;return players;}return;});
-      if(!res.committed||!myColor){alert("満席です");joinBtn.disabled=false;return;}const mine=ref(db,`flipBattle6x6/${roomKey}/${roomId}/players/${myColor}`);onDisconnect(mine).update({online:false,lastSeen:serverTimestamp()});await update(mine,{online:true,lastSeen:Date.now(),name});joinCard.classList.add("hidden");onValue(gameRef,snap=>{state=normalizeState(snap.val());refreshMyColor();autostart();selectedFlipCell=selectedFlipCell&&0<=selectedFlipCell.r&&selectedFlipCell.r<N&&0<=selectedFlipCell.c&&selectedFlipCell.c<N?selectedFlipCell:null;render();});}
+      if(!res.committed||!myColor){alert("満席です");joinBtn.disabled=false;return;}const mine=ref(db,`flipBattle6x6/${roomKey}/${roomId}/players/${myColor}`);onDisconnect(mine).update({online:false,lastSeen:serverTimestamp()});await update(mine,{online:true,lastSeen:Date.now(),name});joinCard.classList.add("hidden");onValue(gameRef,snap=>{state=normalizeState(snap.val());refreshMyColor();autostart();render();});}
     finally{joining=false;}}
   async function autostart(){if(!gameRef||!state||state.started||state.winner)return;const p=state.players||{};if(p.black&&p.white)await runTransaction(gameRef,s=>{s=normalizeState(s);if(!s.started&&s.players?.black&&s.players?.white){s.started=true;s.log=trim([...(s.log||[]),logLine("開始")]);}return s;});}
 
-  function finishAfterMove(s,b,nextTurn){s.board=b;s.phase="place";s.flipChooser=null;s.turn=nextTurn;s.urge=null;if(full(b)||legalMoves(b).length===0){s.winner=winnerByCount(b);s.endReason=full(b)?"盤面終了":"合法手なし";s.log=trim([...(s.log||[]),logLine("終了")]);}return s;}
-  async function onCell(r,c){if(acting||!state||!myColor||state.winner)return;if(canFlip()){selectedFlipCell={r,c};render();return;}if(!isMyTurn())return;acting=true;try{if(localAI){applyLocal(s=>{if(s.winner||s.phase!=="place"||s.turn!==myColor||!legalPlace(s.board,r,c))return s;const b=clone(s.board);b[r][c]=myColor;s.board=b;s.phase="flip";s.flipChooser=myColor;s.lastMove={r,c,color:myColor,at:Date.now()};s.moveNo=(s.moveNo||0)+1;s.urge=null;s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} (${r+1},${c+1})`)]);return s;});return;}
-      await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="place"||s.turn!==myColor||!s.started)return s;const b=s.board||emptyBoard();if(!legalPlace(b,r,c))return s;const nb=clone(b);nb[r][c]=myColor;s.board=nb;s.phase="flip";s.flipChooser=myColor;s.lastMove={r,c,color:myColor,at:Date.now()};s.moveNo=(s.moveNo||0)+1;s.urge=null;s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} (${r+1},${c+1})`)]);return s;});}finally{acting=false;}}
-
-  async function chooseFlip(kind){if(acting||!canFlip())return;const last=state.lastMove;let idx=null;if(kind==="row"){if(!selectedFlipCell||selectedFlipCell.r===last?.r)return;idx=selectedFlipCell.r;}if(kind==="col"){if(!selectedFlipCell||selectedFlipCell.c===last?.c)return;idx=selectedFlipCell.c;}acting=true;try{if(localAI){applyLocal(s=>{if(s.winner||s.phase!=="flip"||s.flipChooser!==myColor)return s;let b=s.board,text="なし";if(kind==="row"){b=flipLine(b,"row",idx);text=`${idx+1}行反転`;}if(kind==="col"){b=flipLine(b,"col",idx);text=`${idx+1}列反転`;}s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} ${text}`)]);return finishAfterMove(s,b,other(myColor));});selectedFlipCell=null;return;}
-      await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="flip"||s.flipChooser!==myColor)return s;let b=s.board||emptyBoard(),text="なし";if(kind==="row"){if(idx===s.lastMove?.r)return s;b=flipLine(b,"row",idx);text=`${idx+1}行反転`;}if(kind==="col"){if(idx===s.lastMove?.c)return s;b=flipLine(b,"col",idx);text=`${idx+1}列反転`;}s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} ${text}`)]);return finishAfterMove(s,b,other(myColor));});selectedFlipCell=null;}finally{acting=false;}}
-
-  function maybeAI(){if(!localAI||aiThinking||!state||state.winner||state.phase!=="place"||state.turn!==WHITE)return;aiThinking=true;setTimeout(()=>{applyLocal(s=>{if(s.winner||s.phase!=="place"||s.turn!==WHITE)return s;const a=bestAction(s,WHITE);if(!a){s.winner=winnerByCount(s.board);s.endReason="合法手なし";return s;}let b=clone(s.board);b[a.r][a.c]=WHITE;s.lastMove={r:a.r,c:a.c,color:WHITE,at:Date.now()};s.moveNo=(s.moveNo||0)+1;s.log=trim([...(s.log||[]),logLine(`白AI (${a.r+1},${a.c+1})`)]);let text="なし";if(a.flip.kind!=="none"){b=flipLine(b,a.flip.kind,a.flip.idx);text=`${a.flip.idx+1}${a.flip.kind==="row"?"行":"列"}反転`;}s.log=trim([...(s.log||[]),logLine(`白AI ${text}`)]);return finishAfterMove(s,b,BLACK);});aiThinking=false;},450);}
+  function finishAfterMove(s,b,nextTurn){s.board=b;s.phase="place";s.flipChooser=null;s.turn=nextTurn;s.urge=null;if(full(b)||legalMoves(b).length===0){s.winner=winnerByScore(b);s.endReason=full(b)?"盤面終了":"合法手なし";s.log=trim([...(s.log||[]),logLine("終了")]);}return s;}
+  async function onCell(r,c){if(acting||!state||!myColor||state.winner)return;if(!isMyTurn())return;acting=true;try{if(localAI){applyLocal(s=>{if(s.winner||s.phase!=="place"||s.turn!==myColor||!legalPlace(s.board,r,c))return s;const b=clone(s.board);b[r][c]=newStone(myColor);s.board=b;s.phase="flip";s.flipChooser=myColor;s.lastMove={r,c,color:myColor,at:Date.now()};s.moveNo=(s.moveNo||0)+1;s.urge=null;s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} (${r+1},${c+1})`)]);return s;});return;}
+      await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="place"||s.turn!==myColor||!s.started)return s;const b=s.board||emptyBoard();if(!legalPlace(b,r,c))return s;const nb=clone(b);nb[r][c]=newStone(myColor);s.board=nb;s.phase="flip";s.flipChooser=myColor;s.lastMove={r,c,color:myColor,at:Date.now()};s.moveNo=(s.moveNo||0)+1;s.urge=null;s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} (${r+1},${c+1})`)]);return s;});}finally{acting=false;}}
+  async function chooseFlip(kind){if(acting||!canFlip()||(kind!=="row"&&kind!=="col"))return;acting=true;try{if(localAI){applyLocal(s=>{if(s.winner||s.phase!=="flip"||s.flipChooser!==myColor)return s;const b=flipFromPlaced(s.board,kind,s.lastMove);s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} ${kind==="row"?"横":"縦"}反転`)]);return finishAfterMove(s,b,other(myColor));});return;}
+      await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="flip"||s.flipChooser!==myColor)return s;const b=flipFromPlaced(s.board,kind,s.lastMove);s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} ${kind==="row"?"横":"縦"}反転`)]);return finishAfterMove(s,b,other(myColor));});}finally{acting=false;}}
+  function maybeAI(){if(!localAI||aiThinking||!state||state.winner||state.phase!=="place"||state.turn!==WHITE)return;aiThinking=true;setTimeout(()=>{applyLocal(s=>{if(s.winner||s.phase!=="place"||s.turn!==WHITE)return s;const a=bestAction(s,WHITE);if(!a){s.winner=winnerByScore(s.board);s.endReason="合法手なし";return s;}let b=clone(s.board);b[a.r][a.c]=newStone(WHITE);s.lastMove={r:a.r,c:a.c,color:WHITE,at:Date.now()};s.moveNo=(s.moveNo||0)+1;s.log=trim([...(s.log||[]),logLine(`白AI (${a.r+1},${a.c+1})`)]);b=flipFromPlaced(b,a.kind,s.lastMove);s.log=trim([...(s.log||[]),logLine(`白AI ${a.kind==="row"?"横":"縦"}反転`)]);return finishAfterMove(s,b,BLACK);});aiThinking=false;},450);}
 
   async function urge(){if(acting||localAI||!state||!gameRef||!myColor||state.winner||state.phase!=="place"||state.turn===myColor)return;acting=true;try{const target=state.turn;await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||s.phase!=="place"||s.turn!==target||s.urge?.active)return s;s.urge={active:true,by:myColor,target,moveNo:s.moveNo||0,deadline:Date.now()+7000};s.log=trim([...(s.log||[]),logLine(`${ja(myColor)} 催促`)]);return s;});}finally{acting=false;}}
   async function claimTimeout(){if(localAI||!state?.urge?.active||!gameRef||state.winner||Date.now()<state.urge.deadline)return;await runTransaction(gameRef,s=>{s=normalizeState(s);if(s.winner||!s.urge?.active||Date.now()<s.urge.deadline)return s;if(s.phase!=="place"||(s.moveNo||0)!==s.urge.moveNo){s.urge=null;return s;}const loser=s.urge.target,winner=other(loser);s.winner=winner;s.loser=loser;s.endReason=`${ja(loser)} 時間切れ`;s.log=trim([...(s.log||[]),logLine(`${ja(winner)} 勝ち：時間切れ`)]);return s;});}
   async function resetGame(){if(localAI){startLocalAI();return;}const r=safeKey(roomInput.value||urlRoom),k=safeKey(urlKey||"public");if(!gameRef){if(!(await ensureFirebase()))return;gameRef=ref(db,`flipBattle6x6/${k}/${r}`);}if(!confirm("リセットしますか？"))return;await runTransaction(gameRef,s=>{const players=s?.players||{};const ns=initState();ns.players=players;ns.started=!!(players.black&&players.white);ns.log=trim([logLine("リセット")]);return ns;});}
   async function copyUrl(){const r=safeKey(roomInput.value||urlRoom),k=safeKey(urlKey||"public"),u=`${location.origin}${location.pathname}?r=${encodeURIComponent(r)}&key=${encodeURIComponent(k)}`;await navigator.clipboard.writeText(u);alert("コピーしました");}
-  async function copyRecord(){if(!state)return;const c=count(state.board||emptyBoard()),lines=["6x6 Flip",`mode: ${localAI?"AI":"online"}`,`room: ${roomId||safeKey(roomInput.value)}`,`result: ${state.winner?ja(state.winner):"playing"}`,`black ${c.black} / white ${c.white}`,"board:"];for(const row of state.board||emptyBoard())lines.push(row.map(v=>v===BLACK?"B":v===WHITE?"W":".").join(" "));lines.push("log:",...(state.log||[]));await navigator.clipboard.writeText(lines.join("\n"));alert("棋譜をコピーしました");}
+  async function copyRecord(){if(!state)return;const c=counts(state.board||emptyBoard()),lines=["6x6 Flip",`mode: ${localAI?"AI":"online"}`,`room: ${roomId||safeKey(roomInput.value)}`,`result: ${state.winner?ja(state.winner):"playing"}`,`black ${c.blackScore} / white ${c.whiteScore}`,"board:"];for(const row of state.board||emptyBoard())lines.push(row.map(v=>v?`${v.color===BLACK?"B":"W"}${v.flip}`:".").join(" "));lines.push("log:",...(state.log||[]));await navigator.clipboard.writeText(lines.join("\n"));alert("棋譜をコピーしました");}
 
-  joinBtn.onclick=join;copyUrlBtn.onclick=copyUrl;resetBtn.onclick=resetGame;urgeBtn.onclick=urge;passFlipBtn.onclick=()=>chooseFlip("none");flipRowBtn.onclick=()=>chooseFlip("row");flipColBtn.onclick=()=>chooseFlip("col");noFlipBtn.onclick=()=>chooseFlip("none");copyRecordBtn.onclick=copyRecord;renderBoard();
+  joinBtn.onclick=join;copyUrlBtn.onclick=copyUrl;resetBtn.onclick=resetGame;urgeBtn.onclick=urge;flipRowBtn.onclick=()=>chooseFlip("row");flipColBtn.onclick=()=>chooseFlip("col");copyRecordBtn.onclick=copyRecord;renderBoard();
 </script>
 </body>
 </html>
